@@ -6,6 +6,11 @@ A beginner-friendly, interactive codelab built in the style of [Google Codelabs]
 [![Beginner Friendly](https://img.shields.io/badge/Level-Beginner-green?style=flat)](https://cloud.google.com/kubernetes-engine/docs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+
+![Create GKE Cluster](images/first-application-on-Google-Kubernetes-Engine.png)
+
+
+
 ---
 
 ##  About 📖
