@@ -51,7 +51,7 @@ gcloud container clusters create my-first-cluster \
   --zone=us-central1-a
 ```
 
-![Create GKE Cluster](images/03-create-cluster.png)
+![Create GKE Cluster](images/Screenshot%202026-02-28%20085609.png)
 
 > Cluster `my-first-cluster` created with **2 nodes**, running Kubernetes `v1.34.3-gke`, STATUS: **RUNNING**
 
