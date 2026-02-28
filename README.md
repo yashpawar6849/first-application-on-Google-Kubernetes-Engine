@@ -1,1 +1,1 @@
-# first-application-on-Google-Kubernetes-Engine-GKE-
+# first-application-on-Google-Kubernetes-Engine
