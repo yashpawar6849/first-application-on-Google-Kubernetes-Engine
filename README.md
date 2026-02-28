@@ -13,12 +13,12 @@ A beginner-friendly, interactive codelab built in the style of [Google Codelabs]
 This codelab walks complete beginners through deploying their very first containerized application on **Google Kubernetes Engine (GKE)**. No prior Kubernetes or cloud experience required.
 
 **What you'll learn:**
-- Why containers exist and what problem they solve
-- What Kubernetes and GKE are (in plain English)
-- Core concepts: Pods, Deployments, Services, Nodes
-- How to create a GKE cluster using Cloud Shell
-- How to deploy, expose, scale, and update an app
-- How to perform a zero-downtime rolling update
+- Why containers exist and what problem they solve.
+- What Kubernetes and GKE are (in plain English).
+- Core concepts: Pods, Deployments, Services, Nodes.
+- How to create a GKE cluster using Cloud Shell.
+- How to deploy, expose, scale, and update an app.
+- How to perform a zero-downtime rolling update.
 
 **Format:** Interactive step-by-step codelab · 8 steps · ~30 minutes
 
@@ -29,8 +29,8 @@ This codelab walks complete beginners through deploying their very first contain
 ```
 gke-codelab/
 ├── index.html      ← Standalone interactive codelab (open in any browser)
-├── images/        ←  Screenshots of commands executed.
-└── README.md             ← You are here
+├── images/         ← Screenshots of commands executed.
+└── README.md       ← You are here
 ```
 
 ---
