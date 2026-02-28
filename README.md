@@ -41,7 +41,7 @@ Below is a full walkthrough of all the commands executed during this codelab, wi
 
 ---
 
-### Step 1 Create a GKE Cluster
+### Step 1: Create a GKE Cluster
 
 Creates a 2-node GKE cluster in `us-central1-a`. The Kubernetes Engine API is auto-enabled on first run.
 
@@ -57,7 +57,7 @@ gcloud container clusters create my-first-cluster \
 
 ---
 
-### Step 2 Connect kubectl to the Cluster
+### Step 2: Connect kubectl to the Cluster
 
 Configures `kubectl` to point at the newly created cluster.
 
@@ -70,19 +70,19 @@ gcloud container clusters get-credentials my-first-cluster \
 
 ---
 
-### Step 3 — Verify Nodes are Ready
+### Step 3: Verify Nodes are Ready
 
 ```bash
 kubectl get nodes
 ```
 
-![Get Nodes](images/Screenshot%202026-02-28%20085856.png)
+![Get Nodes](images/Screenshot%202026-02-28%20085710.png)
 
 > Both nodes show **STATUS: Ready** the cluster is healthy and ready for workloads.
 
 ---
 
-### Step 4 — Deploy the App
+### Step 4: Deploy the App
 
 Creates a Deployment running the `hello-app:1.0` container image.
 
@@ -91,23 +91,23 @@ kubectl create deployment hello-app \
   --image=gcr.io/google-samples/hello-app:1.0
 ```
 
-![Create Deployment](images/06-create-deployment.png)
+![Create Deployment](images/Screenshot%202026-02-28%20085843.png)
 
 ---
 
-### Step 5 — Verify Pod is Running
+### Step 5: Verify Pod is Running
 
 ```bash
 kubectl get pods
 ```
 
-![Get Pods](images/07-get-pods.png)
+![Get Pods](images/Screenshot%202026-02-28%20085856.png)
 
 > Pod `hello-app-6f65bf88...` is **Running** with 0 restarts ✅
 
 ---
 
-### Step 6 — Expose the App to the Internet
+### Step 6: Expose the App to the Internet
 
 Creates a `LoadBalancer` Service that gives the app a public IP.
 
@@ -118,19 +118,19 @@ kubectl expose deployment hello-app \
   --target-port=8080
 ```
 
-![Expose Service](images/08-expose-service.png)
+![Expose Service](images/Screenshot%202026-02-28%20085910.png)
 
 ---
 
-### Step 7 — Get the Public IP
+### Step 7: Get the Public IP
 
 ```bash
 kubectl get service hello-app --watch
 ```
 
-![Get Service](images/09-get-service.png)
+![Get Service](images/Screenshot%202026-02-28%20090514.png)
 
-> External IP assigned: **`34.41.57.97`** — app is now live on the internet 🌐
+> External IP assigned: **`34.41.57.97`** app is now live on the internet 🌐
 
 ---
 
