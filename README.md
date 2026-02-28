@@ -35,13 +35,13 @@ gke-codelab/
 
 ---
 
-## 🖥️ Live Walkthrough
+##  Live Walkthrough 🖥️
 
 Below is a full walkthrough of all the commands executed during this codelab, with real output screenshots.
 
 ---
 
-### Step 1 — Create a GKE Cluster
+### Step 1 Create a GKE Cluster
 
 Creates a 2-node GKE cluster in `us-central1-a`. The Kubernetes Engine API is auto-enabled on first run.
 
@@ -57,7 +57,7 @@ gcloud container clusters create my-first-cluster \
 
 ---
 
-### Step 2 — Connect kubectl to the Cluster
+### Step 2 Connect kubectl to the Cluster
 
 Configures `kubectl` to point at the newly created cluster.
 
@@ -66,7 +66,7 @@ gcloud container clusters get-credentials my-first-cluster \
   --zone=us-central1-a
 ```
 
-![Get Credentials](images/04-get-credentials.png)
+![Get Credentials](images/Screenshot%202026-02-28%20085654.png)
 
 ---
 
@@ -76,9 +76,9 @@ gcloud container clusters get-credentials my-first-cluster \
 kubectl get nodes
 ```
 
-![Get Nodes](images/05-get-nodes.png)
+![Get Nodes](images/Screenshot%202026-02-28%20085856.png)
 
-> Both nodes show **STATUS: Ready** — the cluster is healthy and ready for workloads.
+> Both nodes show **STATUS: Ready** the cluster is healthy and ready for workloads.
 
 ---
 
