@@ -1,4 +1,4 @@
-# 🚀 Getting Started with Google Kubernetes Engine (GKE)
+# Getting Started with Google Kubernetes Engine (GKE) ☸️
 
 A beginner-friendly, interactive codelab built in the style of [Google Codelabs](https://codelabs.developers.google.com/) covering everything from containers to deploying, scaling, and updating a live app on GKE.
 
@@ -28,8 +28,8 @@ This codelab walks complete beginners through deploying their very first contain
 
 ```
 gke-codelab/
-├── gke-codelab.html      ← Standalone interactive codelab (open in any browser)
-├── gke-codelab.md        ← CLaaT-compatible markdown source
+├── index.html      ← Standalone interactive codelab (open in any browser)
+├── images/        ←  Screenshots of commands executed.
 └── README.md             ← You are here
 ```
 
@@ -134,29 +134,29 @@ kubectl get service hello-app --watch
 
 ---
 
-### Step 8 — App Live: Version 1.0
+### Step 8: App Live: Version 1.0
 
 Opening the external IP in a browser shows the running app:
 
-![Hello World v1](images/01-hello-world-v1.png)
+![Hello World v1](images/Screenshot%20(1002)%20-%20Copy.png)
 
 > `Version: 1.0.0` · Hostname: `hello-app-6f65bf884d-trk2m`
 
 ---
 
-### Step 9 — Scale to 3 Replicas
+### Step 9: Scale to 3 Replicas
 
 ```bash
 kubectl scale deployment hello-app --replicas=3
 ```
 
-![Scale Replicas](images/10-scale-replicas.png)
+![Scale Replicas](images/Screenshot%202026-02-28%20090643.png)
 
-> **One command** to go from 1 Pod to 3 — GKE load balances across all three automatically.
+> **One command** to go from 1 Pod to 3 GKE load balances across all three automatically.
 
 ---
 
-### Step 10 — Verify 3 Pods + Update Image
+### Step 10: Verify 3 Pods + Update Image
 
 Confirms 3 Pods are running, then updates to `hello-app:2.0`:
 
@@ -166,33 +166,33 @@ kubectl set image deployment/hello-app \
   hello-app=gcr.io/google-samples/hello-app:2.0
 ```
 
-![Scale and Update](images/11-scale-and-update.png)
+![Scale and Update](images/Screenshot%202026-02-28%20090727.png)
 
 ---
 
-### Step 11 — Rolling Update Completes
+### Step 11: Rolling Update Completes
 
 ```bash
 kubectl rollout status deployment/hello-app
 ```
 
-![Rollout Status](images/12-rollout-status.png)
+![Rollout Status](images/Screenshot%202026-02-28%20090727.png)
 
 > `deployment "hello-app" successfully rolled out` — zero downtime ✅
 
 ---
 
-### Step 12 — App Live: Version 2.0
+### Step 12: App Live: Version 2.0
 
 After the rolling update, refreshing the browser shows the new version:
 
-![Hello World v2](images/02-hello-world-v2.png)
+![Hello World v2](images/Screenshot%20(1003).png)
 
 > `Version: 2.0.0` · New Pod hostname confirms the update rolled out successfully
 
 ---
 
-### Step 13 — Clean Up
+### Step 13: Clean Up
 
 Deletes the Service and the cluster to avoid ongoing charges.
 
@@ -203,7 +203,7 @@ gcloud container clusters delete my-first-cluster \
   --zone=us-central1-a
 ```
 
-![Cleanup](images/13-cleanup.png)
+![Cleanup](images/Screenshot%202026-02-28%20091423.png)
 
 > Service deleted · Cluster `my-first-cluster` deleted from `us-central1-a` ✅
 
@@ -214,7 +214,7 @@ gcloud container clusters delete my-first-cluster \
 | Requirement | Details |
 |---|---|
 | Google Account | Gmail works |
-| Google Cloud Project | [Create one here](https://console.cloud.google.com) — $300 free credits for new accounts |
+| Google Cloud Project | [Create one here](https://console.cloud.google.com) $300 free credits for new accounts |
 | Cloud Shell | Browser-based terminal, no local install needed |
 | Billing enabled | Required for GKE cluster creation |
 
