@@ -621,26 +621,26 @@
       </div>
 
       <h2>Overview</h2>
-      <p>This codelab walks you through deploying your very first application on <strong>Google Kubernetes Engine (GKE)</strong>. You'll go from zero to a live, internet-accessible app — scaled across multiple replicas — using just a handful of commands.</p>
+      <p>This codelab walks you through deploying your very first application on <strong>Google Kubernetes Engine (GKE)</strong>. You'll go from zero to a live, internet-accessible app  scaled across multiple replicas — using just a handful of commands.</p>
       <p>No prior Kubernetes or cloud experience is required. We'll explain every concept before you use it.</p>
 
       <h2>What you'll learn</h2>
       <ul class="checks">
-        <li>Why containers exist and what problem they solve</li>
-        <li>What Kubernetes and GKE are (in plain English)</li>
-        <li>The meaning of Pods, Deployments, Services, and Nodes</li>
-        <li>How to create a GKE cluster using Cloud Shell</li>
-        <li>How to deploy a containerized app and expose it to the internet</li>
-        <li>How to scale your app to multiple replicas with one command</li>
+        <li>Why containers exist and what problem they solve.</li>
+        <li>What Kubernetes and GKE are (in plain English).</li>
+        <li>The meaning of Pods, Deployments, Services, and Nodes.</li>
+        <li>How to create a GKE cluster using Cloud Shell.</li>
+        <li>How to deploy a containerized app and expose it to the internet.</li>
+        <li>How to scale your app to multiple replicas with one command.</li>
       </ul>
 
       <h2>What you'll build</h2>
       <div class="arch-diagram">
         <div class="arch-label" style="margin-bottom: 16px; font-size: 13px;">Your finished architecture</div>
         <div class="arch-row">
-          <div class="arch-box gray">🌐 Internet</div>
+          <div class="arch-box gray">Internet 🌐</div>
           <span class="arch-arrow">→</span>
-          <div class="arch-box orange">LoadBalancer Service</div>
+          <div class="arch-box orange">Load Balancer Service</div>
           <span class="arch-arrow">→</span>
         </div>
         <div class="arch-row" style="margin-top: 8px;">
@@ -667,9 +667,9 @@
 
       <h2>Prerequisites</h2>
       <ul class="checks">
-        <li>A Google account (Gmail works)</li>
-        <li>Access to Google Cloud Console — <a href="https://console.cloud.google.com" target="_blank" style="color: var(--google-blue);">console.cloud.google.com</a></li>
-        <li>No software installation needed — we'll use Cloud Shell (browser-based terminal)</li>
+        <li>A Google Account (Gmail works).</li>
+        <li>Access to Google Cloud Console:— <a href="https://console.cloud.google.com" target="_blank" style="color: var(--google-blue);">console.cloud.google.com</a></li>
+        <li>No software installation needed we'll use Cloud Shell (browser-based terminal).</li>
       </ul>
 
       <div class="nav-buttons">
@@ -763,9 +763,9 @@
       <p>You've probably experienced this: an app works perfectly on your laptop but breaks the moment you run it somewhere else. The reason? Different environments have different versions of Python, Node.js, system libraries, and OS settings.</p>
 
       <div class="analogy-card">
-        <h3>🚢 The Shipping Container Analogy</h3>
-        <p>Before standardized shipping containers, loading a ship was chaotic — every package was different, and workers had to figure out how to stack and handle each one individually.</p>
-        <p style="margin-top: 8px; margin-bottom: 0;">Software containers do for code what shipping containers did for cargo: they <strong>package everything your app needs</strong> — code, runtime, libraries, config — into one standardized unit that runs the same way everywhere.</p>
+        <h3>The Shipping Container Analogy 🚢</h3>
+        <p>Before standardized shipping containers, loading a ship was chaotic every package was different, and workers had to figure out how to stack and handle each one individually.</p>
+        <p style="margin-top: 8px; margin-bottom: 0;">Software containers do for code what shipping containers did for cargo: they <strong>package everything your app needs</strong>code, runtime, libraries, config into one standardized unit that runs the same way everywhere.</p>
       </div>
 
       <h2>So what is Kubernetes?</h2>
@@ -773,12 +773,12 @@
       <p><strong>Kubernetes</strong> (often abbreviated as <em>K8s</em>) is an open-source system that automates this. Think of it as the operating system for your cluster of machines.</p>
 
       <div class="analogy-card">
-        <h3>👨‍🍳 The Head Chef Analogy</h3>
+        <h3>The Head Chef Analogy👨‍🍳</h3>
         <p>Kubernetes is like the head chef of a restaurant. You don't tell each cook what to do minute by minute. You tell the head chef: <em>"I always need 5 portions of this dish ready."</em> The chef assigns cooks, restarts anyone who gets sick, and adjusts staffing when it gets busy.</p>
       </div>
 
       <h2>Where does GKE fit in?</h2>
-      <p>Running Kubernetes yourself requires deep expertise — you'd need to install it, configure networking, manage upgrades, set up monitoring, handle security patches... <strong>Google Kubernetes Engine (GKE)</strong> does all of that for you.</p>
+      <p>Running Kubernetes yourself requires deep expertise you'd need to install it, configure networking, manage upgrades, set up monitoring, handle security patches... <strong>Google Kubernetes Engine (GKE)</strong> does all of that for you.</p>
 
       <div class="table-wrap">
         <table>
@@ -821,19 +821,19 @@
         </div>
       </div>
 
-      <h2>The building blocks — demystified</h2>
+      <h2>The building blocks demystified</h2>
       <p>Kubernetes has a lot of new vocabulary. Here's a plain-English guide to the terms you'll encounter in this codelab.</p>
 
-      <h3>🖥️ Cluster & Nodes</h3>
+      <h3>Cluster & Nodes 🖥️ </h3>
       <p>A <strong>cluster</strong> is a group of computers (virtual machines) working together as one. Each individual machine in the cluster is called a <strong>node</strong>. GKE manages these nodes for you on Google Cloud infrastructure.</p>
 
-      <h3>📦 Pod</h3>
-      <p>A <strong>Pod</strong> is the smallest unit Kubernetes manages — a bubble that wraps your container(s). Every Pod gets its own IP address inside the cluster. Pods are designed to be <em>temporary and replaceable</em>: if one crashes, Kubernetes starts a fresh one.</p>
+      <h3>Pod📦</h3>
+      <p>A <strong>Pod</strong> is the smallest unit Kubernetes manages a bubble that wraps your container(s). Every Pod gets its own IP address inside the cluster. Pods are designed to be <em>temporary and replaceable</em>: if one crashes, Kubernetes starts a fresh one.</p>
 
-      <h3>🎛️ Deployment</h3>
-      <p>A <strong>Deployment</strong> is a standing instruction: <em>"always keep N copies of this Pod running."</em> It watches your Pods and automatically replaces any that fail. It also handles <strong>rolling updates</strong> — deploying a new version gradually so users never experience downtime.</p>
+      <h3>Deployment 🎛️</h3>
+      <p>A <strong>Deployment</strong> is a standing instruction: <em>"always keep N copies of this Pod running."</em> It watches your Pods and automatically replaces any that fail. It also handles <strong>rolling updates</strong> deploying a new version gradually so users never experience downtime.</p>
 
-      <h3>🚪 Service</h3>
+      <h3>Service🚪</h3>
       <p>Since Pods come and go (and their IPs change), a <strong>Service</strong> provides a stable address that always points to the right Pods. It acts as a load balancer, distributing requests across all healthy Pods behind it.</p>
 
       <div class="table-wrap">
@@ -882,7 +882,7 @@
         <div class="arch-row">
           <div class="arch-box gray">User request</div>
           <span class="arch-arrow">→</span>
-          <div class="arch-box orange">Service<br><small style="font-size:10px;font-weight:400">stable IP / LoadBalancer</small></div>
+          <div class="arch-box orange">Service<br><small style="font-size:10px;font-weight:400">stable IP / Load Balancer</small></div>
           <span class="arch-arrow">→</span>
           <div style="display: flex; flex-direction: column; gap: 8px;">
             <div class="arch-box green">Pod A</div>
@@ -899,7 +899,7 @@
         <div class="icon">📖</div>
         <div>
           <div class="info-box-title">Remember this</div>
-          <p>You never talk to Pods directly. You talk to Services. Services talk to Pods. This is what makes your app resilient — if a Pod dies, the Service instantly routes to the remaining ones.</p>
+          <p>You never talk to Pods directly. You talk to Services. Services talk to Pods. This is what makes your app resilient if a Pod dies, the Service instantly routes to the remaining ones.</p>
         </div>
       </div>
 
@@ -1024,12 +1024,12 @@ hello-app-xxxxxxxxxx-xxxxx   1/1     Running   0</span></pre>
         <div class="icon">💡</div>
         <div>
           <div class="info-box-title">What just happened?</div>
-          <p>Kubernetes pulled the container image from Google Container Registry, scheduled it onto one of your nodes, and started it. The Deployment is now watching this Pod — if it crashes, a replacement starts automatically.</p>
+          <p>Kubernetes pulled the container image from Google Container Registry, scheduled it onto one of your nodes, and started it. The Deployment is now watching this Pod if it crashes, a replacement starts automatically.</p>
         </div>
       </div>
 
       <h2>Expose your app to the internet</h2>
-      <p>Right now your app is running but only reachable inside the cluster. Create a <strong>LoadBalancer Service</strong> to give it a public IP:</p>
+      <p>Right now your app is running but only reachable inside the cluster. Create a <strong>Load Balancer Service</strong> to give it a public IP:</p>
 
       <div class="code-block">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -1088,7 +1088,7 @@ Hostname: hello-app-xxxxxxxxxx-xxxxx</pre>
       </div>
 
       <h2>Scale to 3 replicas</h2>
-      <p>This is where Kubernetes becomes magical. With a single command, you run 3 copies of your app — and GKE automatically load balances traffic across all of them:</p>
+      <p>This is where Kubernetes becomes magical. With a single command, you run 3 copies of your app and GKE automatically load balances traffic across all of them:</p>
 
       <div class="code-block">
         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -1139,7 +1139,7 @@ Waiting for deployment "hello-app" rollout to finish: 2 out of 3 new replicas ha
 deployment "hello-app" successfully rolled out</span></pre>
       </div>
 
-      <p>Reload your app's IP — you'll now see <code>Version: 2.0.0</code>.</p>
+      <p>Reload your app's IP you'll now see <code>Version: 2.0.0</code>.</p>
 
       <h2>Clean up (important!)</h2>
       <p>Delete all resources to avoid ongoing charges:</p>
@@ -1187,12 +1187,12 @@ gcloud container clusters delete my-first-cluster \
 
       <h2>What you accomplished</h2>
       <ul class="checks">
-        <li>Understood what containers, Kubernetes, and GKE are</li>
-        <li>Created a GKE cluster in under 4 minutes</li>
-        <li>Deployed a containerized app with <code>kubectl</code></li>
-        <li>Exposed it to the internet via a LoadBalancer</li>
-        <li>Scaled to 3 replicas with a single command</li>
-        <li>Performed a zero-downtime rolling update</li>
+        <li>Understood what containers, Kubernetes, and GKE are.</li>
+        <li>Created a GKE cluster in under 4 minutes.</li>
+        <li>Deployed a containerized app with <code>kubectl.</code></li>
+        <li>Exposed it to the internet via a LoadBalancer.</li>
+        <li>Scaled to 3 replicas with a single command.</li>
+        <li>Performed a zero-downtime rolling update.</li>
       </ul>
 
       <h2>What to learn next</h2>
