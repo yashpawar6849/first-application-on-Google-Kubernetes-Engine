@@ -8,7 +8,7 @@ A beginner-friendly, interactive codelab built in the style of [Google Codelabs]
 
 ---
 
-## 📖 About
+##  About 📖
 
 This codelab walks complete beginners through deploying their very first containerized application on **Google Kubernetes Engine (GKE)**. No prior Kubernetes or cloud experience required.
 
@@ -24,7 +24,7 @@ This codelab walks complete beginners through deploying their very first contain
 
 ---
 
-## 🗂️ Project Structure
+##  Project Structure 🗂️
 
 ```
 gke-codelab/
