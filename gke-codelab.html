@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getting Started with GKE | Google Codelabs Style</title>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --google-blue: #1a73e8;
+    --google-blue-dark: #0d47a1;
+    --google-blue-light: #e8f0fe;
+    --google-green: #34a853;
+    --google-yellow: #fbbc04;
+    --google-red: #ea4335;
+    --sidebar-width: 280px;
+    --header-height: 64px;
+    --text-primary: #202124;
+    --text-secondary: #5f6368;
+    --border: #dadce0;
+    --bg: #fff;
+    --step-done: #34a853;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-primary);
+    background: var(--bg);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-height);
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    z-index: 100;
+    gap: 16px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--google-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .breadcrumb {
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .breadcrumb a { color: var(--google-blue); text-decoration: none; }
+  .breadcrumb span { color: var(--text-secondary); }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: flex;
+    margin-top: var(--header-height);
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  /* ── SIDEBAR ── */
+  nav {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    background: #fafafa;
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    padding: 24px 0;
+  }
+
+  .nav-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0 24px 12px;
+  }
+
+  .nav-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 24px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 3px solid transparent;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .nav-step:hover { background: #f1f3f4; }
+
+  .nav-step.active {
+    background: var(--google-blue-light);
+    border-left-color: var(--google-blue);
+  }
+
+  .nav-step.active .step-label { color: var(--google-blue); font-weight: 500; }
+  .nav-step.done .step-num { background: var(--step-done); }
+
+  .step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .nav-step.active .step-num {
+    background: var(--google-blue);
+    color: white;
+  }
+
+  .step-label {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    flex: 1;
+    max-width: 900px;
+    padding: 48px 64px;
+    min-width: 0;
+  }
+
+  /* ── SECTIONS (one per step) ── */
+  .step-section { display: none; }
+  .step-section.active { display: block; animation: fadeIn 0.2s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── STEP HEADER ── */
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .step-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--google-blue);
+    color: white;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-header h1 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .step-meta {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    display: flex;
+    gap: 16px;
+  }
+
+  .step-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* ── TYPOGRAPHY ── */
+  h2 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 32px 0 12px;
+  }
+
+  h3 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 24px 0 8px;
+  }
+
+  p { margin-bottom: 16px; color: #3c4043; line-height: 1.7; }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: #263238;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    position: relative;
+    overflow-x: auto;
+  }
+
+  .code-block pre {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 13.5px;
+    color: #aed581;
+    line-height: 1.7;
+    white-space: pre;
+  }
+
+  .code-block .comment { color: #78909c; }
+  .code-block .flag { color: #80cbc4; }
+  .code-block .string { color: #f48fb1; }
+
+  .copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #ccc;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    transition: background 0.15s;
+  }
+
+  .copy-btn:hover { background: rgba(255,255,255,0.2); }
+  .copy-btn.copied { color: #81c784; border-color: #81c784; }
+
+  code {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 13px;
+    background: #f1f3f4;
+    color: #c0392b;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  /* ── INFO BOXES ── */
+  .info-box {
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .info-box.blue { background: #e8f0fe; border-left: 4px solid var(--google-blue); }
+  .info-box.green { background: #e6f4ea; border-left: 4px solid var(--google-green); }
+  .info-box.yellow { background: #fef7e0; border-left: 4px solid var(--google-yellow); }
+  .info-box.red { background: #fce8e6; border-left: 4px solid var(--google-red); }
+
+  .info-box .icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+
+  .info-box-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+  }
+
+  .info-box p { margin: 0; font-size: 14px; line-height: 1.6; }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x: auto; margin: 20px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  thead th {
+    background: var(--google-blue);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-family: 'Google Sans', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+  }
+
+  tbody tr:nth-child(even) { background: #f8f9fa; }
+  tbody tr:hover { background: #e8f0fe; }
+
+  td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--google-blue-light);
+    color: var(--google-blue);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  /* ── STEPS LIST ── */
+  ol.steps { padding-left: 20px; margin: 12px 0 20px; }
+  ol.steps li {
+    padding: 6px 0 6px 8px;
+    line-height: 1.7;
+    font-size: 15px;
+    color: #3c4043;
+  }
+
+  ul.checks { list-style: none; margin: 12px 0 20px; }
+  ul.checks li {
+    padding: 5px 0;
+    padding-left: 24px;
+    position: relative;
+    font-size: 15px;
+    color: #3c4043;
+  }
+
+  ul.checks li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--google-green);
+    font-weight: 700;
+  }
+
+  /* ── ANALOGY CARD ── */
+  .analogy-card {
+    background: linear-gradient(135deg, #e8f0fe 0%, #f3e5f5 100%);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+    border: 1px solid #c5cae9;
+  }
+
+  .analogy-card h3 {
+    color: var(--google-blue-dark);
+    margin-top: 0;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── ARCHITECTURE DIAGRAM ── */
+  .arch-diagram {
+    background: #f8f9fa;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    margin: 24px 0;
+    text-align: center;
+  }
+
+  .arch-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+    flex-wrap: wrap;
+  }
+
+  .arch-box {
+    background: white;
+    border: 2px solid var(--google-blue);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 13px;
+    color: var(--google-blue-dark);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .arch-box.green { border-color: var(--google-green); color: #1b5e20; }
+  .arch-box.orange { border-color: #f57c00; color: #e65100; }
+  .arch-box.gray { border-color: #9e9e9e; color: #424242; background: #f5f5f5; }
+  .arch-box.cluster { background: var(--google-blue-light); border-style: dashed; padding: 20px 30px; }
+
+  .arch-arrow { color: var(--text-secondary); font-size: 18px; font-weight: 300; }
+  .arch-label { font-size: 11px; color: var(--text-secondary); margin-top: 4px; font-family: 'Google Sans', sans-serif; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--border);
+    height: 4px;
+    border-radius: 2px;
+    margin: 0 24px 20px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--google-blue);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* ── NAV BUTTONS ── */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--google-blue);
+    color: white;
+  }
+
+  .btn-primary:hover { background: #1557b0; box-shadow: 0 2px 8px rgba(26,115,232,0.4); }
+
+  .btn-secondary {
+    background: white;
+    color: var(--google-blue);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover { background: var(--google-blue-light); }
+
+  .btn:disabled { opacity: 0.4; cursor: default; }
+
+  /* ── CONGRATULATIONS ── */
+  .congrats {
+    text-align: center;
+    padding: 48px 0;
+  }
+
+  .congrats-badge {
+    width: 96px;
+    height: 96px;
+    background: linear-gradient(135deg, var(--google-green) 0%, #1b5e20 100%);
+    border-radius: 50%;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    box-shadow: 0 8px 32px rgba(52,168,83,0.3);
+  }
+
+  .congrats h1 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .congrats p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 480px;
+    margin: 0 auto 32px;
+  }
+
+  /* ── DURATION TAG ── */
+  .duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--google-blue-light);
+    color: var(--google-blue);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-family: 'Google Sans', sans-serif;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { display: none; }
+    main { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">G</div>
+    <span>Codelabs</span>
+  </div>
+  <span style="color: var(--border); font-size: 20px; font-weight: 200; margin: 0 4px;">/</span>
+  <div class="breadcrumb">
+    <a href="#">Google Kubernetes Engine</a>
+    <span>›</span>
+    <span>Getting Started with GKE</span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR NAV -->
+  <nav id="sidebar">
+    <div class="nav-title">Contents</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar" style="width: 14%"></div>
+    </div>
+    <a class="nav-step active" onclick="goToStep(0)" href="#">
+      <div class="step-num">1</div>
+      <span class="step-label">Overview & Objectives</span>
+    </a>
+    <a class="nav-step" onclick="goToStep(1)" href="#">
+      <div class="step-num">2</div>
+      <span class="step-label">Before You Begin</span>
+    </a>
+    <a class="nav-step" onclick="goToStep(2)" href="#">
+      <div class="step-num">3</div>
+      <span class="step-label">Containers & Why GKE</span>
+    </a>
+    <a class="nav-step" onclick="goToStep(3)" href="#">
+      <div class="step-num">4</div>
+      <span class="step-label">Core GKE Concepts</span>
+    </a>
+    <a class="nav-step" onclick="goToStep(4)" href="#">
+      <div class="step-num">5</div>
+      <span class="step-label">Create a GKE Cluster</span>
+    </a>
+    <a class="nav-step" onclick="goToStep(5)" href="#">
+      <div class="step-num">6</div>
+      <span class="step-label">Deploy Your First App</span>
+    </a>
+    <a class="nav-step" onclick="goToStep(6)" href="#">
+      <div class="step-num">7</div>
+      <span class="step-label">Scale & Update</span>
+    </a>
+    <a class="nav-step" onclick="goToStep(7)" href="#">
+      <div class="step-num">✓</div>
+      <span class="step-label">Congratulations!</span>
+    </a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- ════════════════════════════════════════════
+         STEP 1: OVERVIEW
+    ═════════════════════════════════════════════ -->
+    <section class="step-section active" id="step-0">
+      <div class="step-header">
+        <div class="step-badge">1</div>
+        <div>
+          <h1>Overview & Objectives</h1>
+          <div class="step-meta">
+            <span>⏱ 2 min read</span>
+            <span>🟢 Beginner</span>
+          </div>
+        </div>
+      </div>
+
+      <h2>Overview</h2>
+      <p>This codelab walks you through deploying your very first application on <strong>Google Kubernetes Engine (GKE)</strong>. You'll go from zero to a live, internet-accessible app — scaled across multiple replicas — using just a handful of commands.</p>
+      <p>No prior Kubernetes or cloud experience is required. We'll explain every concept before you use it.</p>
+
+      <h2>What you'll learn</h2>
+      <ul class="checks">
+        <li>Why containers exist and what problem they solve</li>
+        <li>What Kubernetes and GKE are (in plain English)</li>
+        <li>The meaning of Pods, Deployments, Services, and Nodes</li>
+        <li>How to create a GKE cluster using Cloud Shell</li>
+        <li>How to deploy a containerized app and expose it to the internet</li>
+        <li>How to scale your app to multiple replicas with one command</li>
+      </ul>
+
+      <h2>What you'll build</h2>
+      <div class="arch-diagram">
+        <div class="arch-label" style="margin-bottom: 16px; font-size: 13px;">Your finished architecture</div>
+        <div class="arch-row">
+          <div class="arch-box gray">🌐 Internet</div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-box orange">LoadBalancer Service</div>
+          <span class="arch-arrow">→</span>
+        </div>
+        <div class="arch-row" style="margin-top: 8px;">
+          <div class="arch-box cluster" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+            <div class="arch-label" style="color: var(--google-blue); font-weight: 600;">GKE Cluster</div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+              <div style="text-align: center;">
+                <div class="arch-box green">Pod 1 🟢</div>
+                <div class="arch-label">hello-app:1.0</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="arch-box green">Pod 2 🟢</div>
+                <div class="arch-label">hello-app:1.0</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="arch-box green">Pod 3 🟢</div>
+                <div class="arch-label">hello-app:1.0</div>
+              </div>
+            </div>
+            <div class="arch-label">Managed by a Deployment</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>Prerequisites</h2>
+      <ul class="checks">
+        <li>A Google account (Gmail works)</li>
+        <li>Access to Google Cloud Console — <a href="https://console.cloud.google.com" target="_blank" style="color: var(--google-blue);">console.cloud.google.com</a></li>
+        <li>No software installation needed — we'll use Cloud Shell (browser-based terminal)</li>
+      </ul>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" disabled>← Previous</button>
+        <button class="btn btn-primary" onclick="goToStep(1)">Next: Before You Begin →</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         STEP 2: BEFORE YOU BEGIN
+    ═════════════════════════════════════════════ -->
+    <section class="step-section" id="step-1">
+      <div class="step-header">
+        <div class="step-badge">2</div>
+        <div>
+          <h1>Before You Begin</h1>
+          <div class="step-meta"><span>⏱ 5 min</span></div>
+        </div>
+      </div>
+
+      <h2>Set up your Google Cloud project</h2>
+      <ol class="steps">
+        <li>In the Google Cloud Console, go to the <strong>project selector page</strong> and <a href="https://console.cloud.google.com/projectselector2/home/dashboard" target="_blank" style="color:var(--google-blue)">create a new project</a>. Name it something like <code>gke-codelab</code>.</li>
+        <li>Make sure <strong>billing is enabled</strong> for your project. New accounts get <strong>$300 free credits</strong>.</li>
+        <li>Enable the Kubernetes Engine API: <a href="https://console.cloud.google.com/flows/enableapi?apiid=container.googleapis.com" target="_blank" style="color:var(--google-blue)">Enable the API →</a></li>
+      </ol>
+
+      <div class="info-box yellow">
+        <div class="icon">⚠️</div>
+        <div>
+          <div class="info-box-title">Cost Warning</div>
+          <p>Running a GKE cluster incurs charges. This codelab costs approximately <strong>$0.10–0.30</strong> to complete. You'll delete all resources at the end. New GCP accounts receive $300 in free credits which more than covers this.</p>
+        </div>
+      </div>
+
+      <h2>Open Cloud Shell</h2>
+      <p>Cloud Shell is a free browser-based terminal with all the tools pre-installed. No setup on your machine required!</p>
+      <ol class="steps">
+        <li>Go to <a href="https://console.cloud.google.com" target="_blank" style="color:var(--google-blue)">console.cloud.google.com</a></li>
+        <li>Click the <strong>Cloud Shell icon</strong> (<code>&gt;_</code>) in the top-right corner of the toolbar</li>
+        <li>A terminal opens at the bottom of your browser. Wait for it to initialize.</li>
+      </ol>
+
+      <div class="info-box green">
+        <div class="icon">✅</div>
+        <div>
+          <div class="info-box-title">Verify your setup</div>
+          <p>Run this in Cloud Shell to confirm your project is set correctly:</p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>gcloud config get-value project</pre>
+      </div>
+
+      <p>You should see your project ID printed. If not, set it manually:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>gcloud config set project YOUR_PROJECT_ID</pre>
+      </div>
+
+      <h2>Set your default zone</h2>
+      <p>A <em>zone</em> is a datacenter location. We'll use <code>us-central1-a</code> throughout this codelab.</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>gcloud config set compute/zone us-central1-a</pre>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToStep(0)">← Previous</button>
+        <button class="btn btn-primary" onclick="goToStep(2)">Next: Containers & Why GKE →</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         STEP 3: CONTAINERS & WHY GKE
+    ═════════════════════════════════════════════ -->
+    <section class="step-section" id="step-2">
+      <div class="step-header">
+        <div class="step-badge">3</div>
+        <div>
+          <h1>Containers & Why GKE</h1>
+          <div class="step-meta"><span>⏱ 5 min read</span></div>
+        </div>
+      </div>
+
+      <h2>The problem containers solve</h2>
+      <p>You've probably experienced this: an app works perfectly on your laptop but breaks the moment you run it somewhere else. The reason? Different environments have different versions of Python, Node.js, system libraries, and OS settings.</p>
+
+      <div class="analogy-card">
+        <h3>🚢 The Shipping Container Analogy</h3>
+        <p>Before standardized shipping containers, loading a ship was chaotic — every package was different, and workers had to figure out how to stack and handle each one individually.</p>
+        <p style="margin-top: 8px; margin-bottom: 0;">Software containers do for code what shipping containers did for cargo: they <strong>package everything your app needs</strong> — code, runtime, libraries, config — into one standardized unit that runs the same way everywhere.</p>
+      </div>
+
+      <h2>So what is Kubernetes?</h2>
+      <p>Once you have containers, you face a new challenge: how do you run hundreds of them across dozens of servers, keep them healthy, scale them up under load, and roll out updates without downtime?</p>
+      <p><strong>Kubernetes</strong> (often abbreviated as <em>K8s</em>) is an open-source system that automates this. Think of it as the operating system for your cluster of machines.</p>
+
+      <div class="analogy-card">
+        <h3>👨‍🍳 The Head Chef Analogy</h3>
+        <p>Kubernetes is like the head chef of a restaurant. You don't tell each cook what to do minute by minute. You tell the head chef: <em>"I always need 5 portions of this dish ready."</em> The chef assigns cooks, restarts anyone who gets sick, and adjusts staffing when it gets busy.</p>
+      </div>
+
+      <h2>Where does GKE fit in?</h2>
+      <p>Running Kubernetes yourself requires deep expertise — you'd need to install it, configure networking, manage upgrades, set up monitoring, handle security patches... <strong>Google Kubernetes Engine (GKE)</strong> does all of that for you.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Without GKE (DIY)</th><th>With GKE</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Install Kubernetes on VMs manually</td><td>Cluster ready in ~2 minutes</td></tr>
+            <tr><td>Apply security patches yourself</td><td>Google auto-patches the control plane</td></tr>
+            <tr><td>Set up monitoring from scratch</td><td>Built-in Cloud Monitoring & Logging</td></tr>
+            <tr><td>Scale nodes manually</td><td>Cluster Autoscaler does it automatically</td></tr>
+            <tr><td>Manage etcd backups</td><td>Fully managed and backed up by Google</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-box blue">
+        <div class="icon">💡</div>
+        <div>
+          <div class="info-box-title">Key insight</div>
+          <p>GKE lets you focus on <strong>building your application</strong>, not managing infrastructure. The hard parts of Kubernetes become Google's problem, not yours.</p>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToStep(1)">← Previous</button>
+        <button class="btn btn-primary" onclick="goToStep(3)">Next: Core GKE Concepts →</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         STEP 4: CORE CONCEPTS
+    ═════════════════════════════════════════════ -->
+    <section class="step-section" id="step-3">
+      <div class="step-header">
+        <div class="step-badge">4</div>
+        <div>
+          <h1>Core GKE Concepts</h1>
+          <div class="step-meta"><span>⏱ 7 min read</span></div>
+        </div>
+      </div>
+
+      <h2>The building blocks — demystified</h2>
+      <p>Kubernetes has a lot of new vocabulary. Here's a plain-English guide to the terms you'll encounter in this codelab.</p>
+
+      <h3>🖥️ Cluster & Nodes</h3>
+      <p>A <strong>cluster</strong> is a group of computers (virtual machines) working together as one. Each individual machine in the cluster is called a <strong>node</strong>. GKE manages these nodes for you on Google Cloud infrastructure.</p>
+
+      <h3>📦 Pod</h3>
+      <p>A <strong>Pod</strong> is the smallest unit Kubernetes manages — a bubble that wraps your container(s). Every Pod gets its own IP address inside the cluster. Pods are designed to be <em>temporary and replaceable</em>: if one crashes, Kubernetes starts a fresh one.</p>
+
+      <h3>🎛️ Deployment</h3>
+      <p>A <strong>Deployment</strong> is a standing instruction: <em>"always keep N copies of this Pod running."</em> It watches your Pods and automatically replaces any that fail. It also handles <strong>rolling updates</strong> — deploying a new version gradually so users never experience downtime.</p>
+
+      <h3>🚪 Service</h3>
+      <p>Since Pods come and go (and their IPs change), a <strong>Service</strong> provides a stable address that always points to the right Pods. It acts as a load balancer, distributing requests across all healthy Pods behind it.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Term</th><th>Real-world analogy</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag">Cluster</span></td>
+              <td>A datacenter building</td>
+              <td>Group of machines running your workloads</td>
+            </tr>
+            <tr>
+              <td><span class="tag">Node</span></td>
+              <td>One computer in the building</td>
+              <td>A VM that runs Pods</td>
+            </tr>
+            <tr>
+              <td><span class="tag">Pod</span></td>
+              <td>One worker at a desk</td>
+              <td>One running instance of your app</td>
+            </tr>
+            <tr>
+              <td><span class="tag">Deployment</span></td>
+              <td>HR policy ("always have 3 staff")</td>
+              <td>Maintains desired number of Pods</td>
+            </tr>
+            <tr>
+              <td><span class="tag">Service</span></td>
+              <td>The reception desk / switchboard</td>
+              <td>Stable entry point that routes to Pods</td>
+            </tr>
+            <tr>
+              <td><span class="tag">Namespace</span></td>
+              <td>Different floors in the building</td>
+              <td>Logical isolation within a cluster</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>How they connect</h2>
+
+      <div class="arch-diagram">
+        <div class="arch-row">
+          <div class="arch-box gray">User request</div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-box orange">Service<br><small style="font-size:10px;font-weight:400">stable IP / LoadBalancer</small></div>
+          <span class="arch-arrow">→</span>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="arch-box green">Pod A</div>
+            <div class="arch-box green">Pod B</div>
+            <div class="arch-box green">Pod C</div>
+          </div>
+        </div>
+        <div style="margin-top: 20px; color: var(--text-secondary); font-size: 13px; font-family: 'Google Sans', sans-serif;">
+          ↑ All three Pods managed by one <strong>Deployment</strong>, all running on <strong>Nodes</strong> inside your <strong>Cluster</strong>
+        </div>
+      </div>
+
+      <div class="info-box blue">
+        <div class="icon">📖</div>
+        <div>
+          <div class="info-box-title">Remember this</div>
+          <p>You never talk to Pods directly. You talk to Services. Services talk to Pods. This is what makes your app resilient — if a Pod dies, the Service instantly routes to the remaining ones.</p>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToStep(2)">← Previous</button>
+        <button class="btn btn-primary" onclick="goToStep(4)">Next: Create a GKE Cluster →</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         STEP 5: CREATE A CLUSTER
+    ═════════════════════════════════════════════ -->
+    <section class="step-section" id="step-4">
+      <div class="step-header">
+        <div class="step-badge">5</div>
+        <div>
+          <h1>Create a GKE Cluster</h1>
+          <div class="step-meta"><span>⏱ 5 min</span></div>
+        </div>
+      </div>
+
+      <h2>Create your first cluster</h2>
+      <p>In your <strong>Cloud Shell</strong>, run the following command to create a small GKE cluster with 2 nodes:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>gcloud container clusters create my-first-cluster \
+  <span class="flag">--num-nodes=2</span> \
+  <span class="flag">--zone=us-central1-a</span></pre>
+      </div>
+
+      <div class="info-box yellow">
+        <div class="icon">⏳</div>
+        <div>
+          <div class="info-box-title">This takes 2–4 minutes</div>
+          <p>Google is provisioning 2 VMs, installing Kubernetes, and setting up networking. This is work that would take a DevOps engineer several hours to do manually. Grab a coffee ☕</p>
+        </div>
+      </div>
+
+      <p>When it's done, you'll see output ending with something like:</p>
+
+      <div class="code-block">
+        <pre><span class="comment">NAME               LOCATION       STATUS
+my-first-cluster   us-central1-a  RUNNING</span></pre>
+      </div>
+
+      <h2>Connect kubectl to your cluster</h2>
+      <p><code>kubectl</code> (pronounced "kube-control") is the command-line tool for interacting with Kubernetes. Run this to configure it to point at your new cluster:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>gcloud container clusters get-credentials my-first-cluster \
+  --zone=us-central1-a</pre>
+      </div>
+
+      <h3>Verify the connection</h3>
+      <p>List the nodes in your cluster:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>kubectl get nodes</pre>
+      </div>
+
+      <p>You should see 2 nodes with <code>STATUS: Ready</code>:</p>
+
+      <div class="code-block">
+        <pre><span class="comment">NAME                                              STATUS   AGE
+gke-my-first-cluster-default-pool-xxxxx-abcd      Ready    2m
+gke-my-first-cluster-default-pool-xxxxx-efgh      Ready    2m</span></pre>
+      </div>
+
+      <div class="info-box green">
+        <div class="icon">✅</div>
+        <div>
+          <div class="info-box-title">Your cluster is live!</div>
+          <p>Two virtual machines are now running Kubernetes, waiting to run your application. You're ready to deploy.</p>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToStep(3)">← Previous</button>
+        <button class="btn btn-primary" onclick="goToStep(5)">Next: Deploy Your First App →</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         STEP 6: DEPLOY YOUR APP
+    ═════════════════════════════════════════════ -->
+    <section class="step-section" id="step-5">
+      <div class="step-header">
+        <div class="step-badge">6</div>
+        <div>
+          <h1>Deploy Your First App</h1>
+          <div class="step-meta"><span>⏱ 5 min</span></div>
+        </div>
+      </div>
+
+      <h2>Create a Deployment</h2>
+      <p>We'll deploy a simple "Hello World" web app using a pre-built Google sample container image. This command creates a <strong>Deployment</strong> with one Pod running your app:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>kubectl create deployment hello-app \
+  <span class="flag">--image=gcr.io/google-samples/hello-app:1.0</span></pre>
+      </div>
+
+      <h3>Verify the Pod is running</h3>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>kubectl get pods</pre>
+      </div>
+
+      <p>Wait until <code>STATUS</code> shows <code>Running</code>:</p>
+
+      <div class="code-block">
+        <pre><span class="comment">NAME                         READY   STATUS    RESTARTS
+hello-app-xxxxxxxxxx-xxxxx   1/1     Running   0</span></pre>
+      </div>
+
+      <div class="info-box blue">
+        <div class="icon">💡</div>
+        <div>
+          <div class="info-box-title">What just happened?</div>
+          <p>Kubernetes pulled the container image from Google Container Registry, scheduled it onto one of your nodes, and started it. The Deployment is now watching this Pod — if it crashes, a replacement starts automatically.</p>
+        </div>
+      </div>
+
+      <h2>Expose your app to the internet</h2>
+      <p>Right now your app is running but only reachable inside the cluster. Create a <strong>LoadBalancer Service</strong> to give it a public IP:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>kubectl expose deployment hello-app \
+  <span class="flag">--type=LoadBalancer</span> \
+  <span class="flag">--port=80</span> \
+  <span class="flag">--target-port=8080</span></pre>
+      </div>
+
+      <h3>Get your public IP</h3>
+      <p>Watch for the <code>EXTERNAL-IP</code> to appear (this takes about 60 seconds):</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>kubectl get service hello-app --watch</pre>
+      </div>
+
+      <div class="code-block">
+        <pre><span class="comment">NAME        TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)
+hello-app   LoadBalancer   10.12.10.100   &lt;pending&gt;      80/TCP
+hello-app   LoadBalancer   10.12.10.100   34.68.X.X      80/TCP  ← your IP!</span></pre>
+      </div>
+
+      <p>Once the external IP appears, press <code>Ctrl+C</code> to stop watching, then open that IP in your browser. You'll see:</p>
+
+      <div class="code-block" style="background: #1b5e20;">
+        <pre style="color: #a5d6a7;">Hello, world!
+Version: 1.0.0
+Hostname: hello-app-xxxxxxxxxx-xxxxx</pre>
+      </div>
+
+      <div class="info-box green">
+        <div class="icon">🎉</div>
+        <div>
+          <div class="info-box-title">Your app is live on the internet!</div>
+          <p>You just deployed a containerized application to Google's global infrastructure. Anyone in the world can now access it at that IP address.</p>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToStep(4)">← Previous</button>
+        <button class="btn btn-primary" onclick="goToStep(6)">Next: Scale & Update →</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         STEP 7: SCALE & UPDATE
+    ═════════════════════════════════════════════ -->
+    <section class="step-section" id="step-6">
+      <div class="step-header">
+        <div class="step-badge">7</div>
+        <div>
+          <h1>Scale & Update Your App</h1>
+          <div class="step-meta"><span>⏱ 5 min</span></div>
+        </div>
+      </div>
+
+      <h2>Scale to 3 replicas</h2>
+      <p>This is where Kubernetes becomes magical. With a single command, you run 3 copies of your app — and GKE automatically load balances traffic across all of them:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>kubectl scale deployment hello-app --replicas=3</pre>
+      </div>
+
+      <p>Check that all 3 Pods are running:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>kubectl get pods</pre>
+      </div>
+
+      <div class="code-block">
+        <pre><span class="comment">NAME                         READY   STATUS    RESTARTS
+hello-app-xxxxxxxxxx-aaaaa   1/1     Running   0
+hello-app-xxxxxxxxxx-bbbbb   1/1     Running   0
+hello-app-xxxxxxxxxx-ccccc   1/1     Running   0</span></pre>
+      </div>
+
+      <div class="info-box blue">
+        <div class="icon">💡</div>
+        <div>
+          <div class="info-box-title">What this used to take</div>
+          <p>Before Kubernetes: provision 2 more VMs, install your app on each, configure a load balancer, update DNS. With Kubernetes: one command. The Service automatically routes to all 3 Pods.</p>
+        </div>
+      </div>
+
+      <h2>Deploy a new version (rolling update)</h2>
+      <p>Update your app to version 2.0. Kubernetes will roll this out <strong>one Pod at a time</strong> so there is zero downtime:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>kubectl set image deployment/hello-app \
+  hello-app=gcr.io/google-samples/hello-app:2.0</pre>
+      </div>
+
+      <p>Watch the rollout happen in real time:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>kubectl rollout status deployment/hello-app</pre>
+      </div>
+
+      <div class="code-block">
+        <pre><span class="comment">Waiting for deployment "hello-app" rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment "hello-app" rollout to finish: 2 out of 3 new replicas have been updated...
+deployment "hello-app" successfully rolled out</span></pre>
+      </div>
+
+      <p>Reload your app's IP — you'll now see <code>Version: 2.0.0</code>.</p>
+
+      <h2>Clean up (important!)</h2>
+      <p>Delete all resources to avoid ongoing charges:</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><span class="comment"># Delete the Service (releases the external IP)</span>
+kubectl delete service hello-app
+
+<span class="comment"># Delete the cluster (deletes all nodes and workloads)</span>
+gcloud container clusters delete my-first-cluster \
+  --zone=us-central1-a</pre>
+      </div>
+
+      <div class="info-box yellow">
+        <div class="icon">⚠️</div>
+        <div>
+          <div class="info-box-title">Don't skip the cleanup</div>
+          <p>The LoadBalancer Service reserves an external IP (billed per hour) and the cluster runs 2 VMs. Always delete when done to avoid unexpected charges.</p>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToStep(5)">← Previous</button>
+        <button class="btn btn-primary" onclick="goToStep(7)">Finish: Congratulations →</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         STEP 8: CONGRATULATIONS
+    ═════════════════════════════════════════════ -->
+    <section class="step-section" id="step-7">
+      <div class="step-header">
+        <div class="step-badge" style="background: var(--google-green);">✓</div>
+        <div>
+          <h1>Congratulations!</h1>
+        </div>
+      </div>
+
+      <div class="congrats">
+        <div class="congrats-badge">🚀</div>
+        <h1>You finished the codelab!</h1>
+        <p>You've successfully deployed, scaled, and updated a containerized app on Google Kubernetes Engine.</p>
+      </div>
+
+      <h2>What you accomplished</h2>
+      <ul class="checks">
+        <li>Understood what containers, Kubernetes, and GKE are</li>
+        <li>Created a GKE cluster in under 4 minutes</li>
+        <li>Deployed a containerized app with <code>kubectl</code></li>
+        <li>Exposed it to the internet via a LoadBalancer</li>
+        <li>Scaled to 3 replicas with a single command</li>
+        <li>Performed a zero-downtime rolling update</li>
+      </ul>
+
+      <h2>What to learn next</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Topic</th><th>Why it matters</th><th>Where to learn</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ConfigMaps & Secrets</strong></td>
+              <td>Store configuration and credentials securely</td>
+              <td>kubernetes.io/docs</td>
+            </tr>
+            <tr>
+              <td><strong>Ingress & Gateway API</strong></td>
+              <td>Route traffic by domain/path, add TLS</td>
+              <td>GKE docs</td>
+            </tr>
+            <tr>
+              <td><strong>Cluster Autoscaler</strong></td>
+              <td>Add/remove nodes automatically based on demand</td>
+              <td>cloud.google.com/kubernetes-engine</td>
+            </tr>
+            <tr>
+              <td><strong>Helm</strong></td>
+              <td>Package and deploy complex apps with one command</td>
+              <td>helm.sh</td>
+            </tr>
+            <tr>
+              <td><strong>CKA Certification</strong></td>
+              <td>Prove your Kubernetes expertise</td>
+              <td>cncf.io/certification/cka</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Resources</h2>
+      <ul class="checks">
+        <li><a href="https://cloud.google.com/kubernetes-engine/docs" target="_blank" style="color:var(--google-blue)">GKE Official Documentation</a></li>
+        <li><a href="https://cloudskillsboost.google" target="_blank" style="color:var(--google-blue)">Google Cloud Skills Boost (free labs)</a></li>
+        <li><a href="https://kubernetes.io/docs/tutorials/" target="_blank" style="color:var(--google-blue)">Kubernetes.io Interactive Tutorials</a></li>
+        <li><a href="https://killer.sh" target="_blank" style="color:var(--google-blue)">killer.sh — CKA exam simulator</a></li>
+      </ul>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToStep(6)">← Previous</button>
+        <button class="btn btn-primary" onclick="goToStep(0)">↩ Start Over</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const TOTAL_STEPS = 8;
+  let currentStep = 0;
+
+  function goToStep(n) {
+    // Hide current
+    document.getElementById('step-' + currentStep).classList.remove('active');
+    document.querySelectorAll('.nav-step')[currentStep].classList.remove('active');
+    document.querySelectorAll('.nav-step')[currentStep].classList.add('done');
+    document.querySelectorAll('.nav-step')[currentStep].querySelector('.step-num').style.background =
+      n > currentStep ? '' : '';
+
+    // Show new
+    currentStep = n;
+    document.getElementById('step-' + currentStep).classList.add('active');
+
+    // Update nav
+    document.querySelectorAll('.nav-step').forEach((el, i) => {
+      el.classList.remove('active');
+      if (i === currentStep) el.classList.add('active');
+      if (i < currentStep) {
+        el.classList.add('done');
+        el.querySelector('.step-num').style.background = 'var(--google-green)';
+        el.querySelector('.step-num').style.color = 'white';
+        el.querySelector('.step-num').textContent = '✓';
+      }
+    });
+
+    // Progress bar
+    const pct = Math.round(((currentStep + 1) / TOTAL_STEPS) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return false;
+  }
+
+  function copyCode(btn) {
+    const pre = btn.parentElement.querySelector('pre');
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  // Prevent nav link default behavior
+  document.querySelectorAll('.nav-step').forEach((el, i) => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      goToStep(i);
+    });
+  });
+</script>
+
+</body>
+</html>
